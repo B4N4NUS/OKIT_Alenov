@@ -33,7 +33,44 @@ public class LoginTest {
 
         String errorMessage = driver.findElement(By.cssSelector("[data-test=error]")).getText();
 
-        Assert.assertEquals(errorMessage, "Epic sadface: Password is require");
+        Assert.assertEquals(errorMessage, "Epic sadface: Password is required");
+
+        driver.quit();
+    }
+
+    @Test
+    public void checkNegativeLoginWithEmptyUsername() {
+        WebDriver driver = new ChromeDriver();
+
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+        driver.get("https://www.saucedemo.com/");
+
+        driver.findElement(By.id("password")).sendKeys("secret_sauce");
+        driver.findElement(By.id("login-button")).click();
+
+        String errorMessage = driver.findElement(By.cssSelector("[data-test=error]")).getText();
+
+        Assert.assertEquals(errorMessage, "Epic sadface: Username is required");
+
+        driver.quit();
+    }
+
+    @Test
+    public void checkNegativeLoginWithEmptyUsernameAndPassword() {
+        WebDriver driver = new ChromeDriver();
+
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+        driver.get("https://www.saucedemo.com/");
+
+        driver.findElement(By.id("login-button")).click();
+
+        String errorMessage = driver.findElement(By.cssSelector("[data-test=error]")).getText();
+
+        Assert.assertEquals(errorMessage, "Epic sadface: Username is required");
 
         driver.quit();
     }
@@ -51,13 +88,10 @@ public class LoginTest {
         driver.findElement(By.id("password")).sendKeys("secret_sauce");
         driver.findElement(By.id("login-button")).click();
 
-
         Boolean titleIsVisible = driver.findElement(By.cssSelector("[data-test=title]")).isDisplayed();
 
         Assert.assertTrue(titleIsVisible);
 
         driver.quit();
     }
-
-
 }
